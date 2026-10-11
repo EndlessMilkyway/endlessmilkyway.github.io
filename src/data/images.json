@@ -138,5 +138,149 @@
  "/images/cafe/screen-6.thumb.webp": [
   420,
   908
+ ],
+ "/images/hev/screen-1.webp": [
+  1600,
+  900
+ ],
+ "/images/hev/screen-1.thumb.webp": [
+  800,
+  450
+ ],
+ "/images/hev/screen-2.webp": [
+  1600,
+  900
+ ],
+ "/images/hev/screen-2.thumb.webp": [
+  800,
+  450
+ ],
+ "/images/hev/screen-3.webp": [
+  1600,
+  900
+ ],
+ "/images/hev/screen-3.thumb.webp": [
+  800,
+  450
+ ],
+ "/images/hev/dialog-1.webp": [
+  486,
+  397
+ ],
+ "/images/hev/dialog-1.thumb.webp": [
+  480,
+  392
+ ],
+ "/images/underbody/screen-1.webp": [
+  1280,
+  1024
+ ],
+ "/images/underbody/screen-1.thumb.webp": [
+  800,
+  640
+ ],
+ "/images/underbody/screen-2.webp": [
+  1280,
+  984
+ ],
+ "/images/underbody/screen-2.thumb.webp": [
+  800,
+  615
+ ],
+ "/images/underbody/dialog-1.webp": [
+  486,
+  534
+ ],
+ "/images/underbody/dialog-1.thumb.webp": [
+  480,
+  527
+ ],
+ "/images/legacy/board-1.webp": [
+  1600,
+  860
+ ],
+ "/images/legacy/board-1.thumb.webp": [
+  800,
+  430
+ ],
+ "/images/legacy/board-2.webp": [
+  1600,
+  900
+ ],
+ "/images/legacy/board-2.thumb.webp": [
+  800,
+  450
+ ],
+ "/images/legacy/board-3.webp": [
+  1600,
+  900
+ ],
+ "/images/legacy/board-3.thumb.webp": [
+  800,
+  450
+ ],
+ "/images/legacy/board-dialog-1.webp": [
+  386,
+  603
+ ],
+ "/images/legacy/board-dialog-1.thumb.webp": [
+  386,
+  603
+ ],
+ "/images/legacy/board-dialog-2.webp": [
+  396,
+  633
+ ],
+ "/images/legacy/board-dialog-2.thumb.webp": [
+  396,
+  633
+ ],
+ "/images/legacy/board-dialog-3.webp": [
+  396,
+  633
+ ],
+ "/images/legacy/board-dialog-3.thumb.webp": [
+  396,
+  633
+ ],
+ "/images/legacy/fuel-1.webp": [
+  1600,
+  860
+ ],
+ "/images/legacy/fuel-1.thumb.webp": [
+  800,
+  430
+ ],
+ "/images/legacy/fuel-2.webp": [
+  1600,
+  860
+ ],
+ "/images/legacy/fuel-2.thumb.webp": [
+  800,
+  430
+ ],
+ "/images/legacy/fuel-dialog-1.webp": [
+  686,
+  460
+ ],
+ "/images/legacy/fuel-dialog-1.thumb.webp": [
+  480,
+  322
+ ],
+ "/images/legacy/fuel-dialog-2.webp": [
+  396,
+  633
+ ],
+ "/images/legacy/fuel-dialog-2.thumb.webp": [
+  396,
+  633
+ ],
+ "/images/legacy/fuel-dialog-3.webp": [
+  406,
+  470
+ ],
+ "/images/legacy/fuel-dialog-3.thumb.webp": [
+  406,
+  470
  ]
 }

@@ -5,14 +5,15 @@ interface Props {
   dir: string;
   files: string[];
   alt: string;
-  variant?: 'web' | 'mobile';
+  alts?: string[];
+  variant?: 'web' | 'mobile' | 'dialog';
 }
-const { dir, files, alt, variant = 'web' } = Astro.props;
+const { dir, files, alt, alts, variant = 'web' } = Astro.props;
 const items = files.map((f, i) => {
   const full = `${dir}/${f}`;
   const thumb = full.replace(/\.webp$/, '.thumb.webp');
   const [width, height] = (sizes as Record<string, number[]>)[thumb] ?? [];
-  return { full, thumb, width, height, alt: `${alt} ${i + 1}` };
+  return { full, thumb, width, height, alt: alts?.[i] ?? `${alt} ${i + 1}` };
 });
 ---
 <div class={`gallery gallery-${variant}`}>

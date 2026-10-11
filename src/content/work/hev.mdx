@@ -9,6 +9,7 @@ summary: ["14개 공정을 지나는 차량의 HEV 배터리·V2Lc 장착 오류
 
 import Case from '../../components/Case.astro';
 import HevDiagram from '../../components/diagrams/HevDiagram.astro';
+import Gallery from '../../components/Gallery.astro';
 
 #### 역할
 
@@ -101,3 +102,9 @@ import HevDiagram from '../../components/diagrams/HevDiagram.astro';
 알림·작업 이력 규칙을 단위 테스트 15개로 고정했고, 화면 코드는 판단 결과를 반영하는 역할만 남았습니다.
 
 </Case>
+
+#### 프로젝트 결과물
+
+<Gallery dir="/images/hev" files={["screen-1.webp","screen-2.webp","screen-3.webp"]} alt="HEV 백업현황판 화면" alts={["HEV 백업현황판 메인 화면","장착 오류 발생 화면","마스터 미연결 화면"]} variant="web" />
+
+<Gallery dir="/images/hev" files={["dialog-1.webp"]} alt="HEV 백업현황판 설정 창" alts={["통신 설정 창"]} variant="dialog" />

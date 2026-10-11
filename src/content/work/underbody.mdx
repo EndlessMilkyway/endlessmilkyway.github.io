@@ -9,6 +9,7 @@ summary: ["MES가 내려주는 차량 서열을 받아, 라인의 리미트 스�
 
 import Case from '../../components/Case.astro';
 import UnderbodyDiagram from '../../components/diagrams/UnderbodyDiagram.astro';
+import Gallery from '../../components/Gallery.astro';
 
 #### 역할
 
@@ -100,3 +101,9 @@ PLC 상태 워드를 주기적으로 읽어 리미트 스위치가 켜졌는지 
 #### 납품 후 변경 요청 대응
 
 고객사 요청으로 작업자 화면의 표출 항목을 현장에 필요한 항목으로 바꾸고, 후속 서열을 더 볼 수 있게 표시 행 수를 늘렸습니다. 파서가 전문의 사양 필드를 모두 읽어 두고, 화면에 무엇을 어떻게 보일지는 표시용 모델과 화면이 정하는 구조라 통신·파싱 코드를 건드리지 않고 반영했습니다.
+
+#### 프로젝트 결과물
+
+<Gallery dir="/images/underbody" files={["screen-1.webp","screen-2.webp"]} alt="언더바디 서열 관리 화면" alts={["언더바디 서열 관리 메인 화면","작업자 화면"]} variant="web" />
+
+<Gallery dir="/images/underbody" files={["dialog-1.webp"]} alt="언더바디 서열 관리 설정 창" alts={["통신 설정 창"]} variant="dialog" />

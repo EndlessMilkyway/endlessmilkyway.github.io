@@ -555,6 +555,15 @@ img {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+/* 화면 수가 홀수면 첫 화면을 한 줄 전체로 */
+.gallery-web > .gallery-item:first-child:nth-last-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.gallery-dialog {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .gallery-item {
   display: block;
   border: 1px solid var(--border);
@@ -577,6 +586,16 @@ img {
   aspect-ratio: 9 / 16;
   object-fit: cover;
   object-position: top;
+}
+
+.gallery-dialog .gallery-item {
+  background: var(--bg-soft);
+}
+
+.gallery-dialog .gallery-item img {
+  aspect-ratio: 4 / 5;
+  padding: 12px;
+  object-fit: contain;
 }
 
 /* 바닥글 */
@@ -645,7 +664,8 @@ img {
     content: ' · 좌우로 밀어서 볼 수 있습니다';
   }
 
-  .gallery-mobile {
+  .gallery-mobile,
+  .gallery-dialog {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
