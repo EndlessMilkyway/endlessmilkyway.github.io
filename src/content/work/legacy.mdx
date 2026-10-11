@@ -4,12 +4,16 @@ order: 3
 title: "레거시 생산 시스템 개선"
 subtitle: "기아 광주 1공장 (일반현황판·연료탱크 이종 방지)"
 meta: ["2026.06.28 ~ 2026.07.15", "단독 개발", "나우디지털"]
+gear: "TCP Socket (서버·클라이언트), Siemens PLC (Fetch/Write), RS-232 Serial (2D 바코드 스캐너)"
 summary: ["오래 가동된 MFC 프로그램 2종(공정 현황판, 연료탱크 오조립 방지)을 C#·.NET 10·WPF로 다시 작성", "현장이 검증한 동작은 비직관적이어도 보존하고 결함만 골라 고치는 원칙으로 이식하며, 통신·도메인을 화면과 분리한 3계층 구조를 세움"]
 ---
 
 import Case from '../../components/Case.astro';
 import LegacyDiagram from '../../components/diagrams/LegacyDiagram.astro';
 import Gallery from '../../components/Gallery.astro';
+import More from '../../components/More.astro';
+
+<More title="역할 · 주요 기능">
 
 #### 역할
 
@@ -29,16 +33,6 @@ import Gallery from '../../components/Gallery.astro';
   - xUnit 테스트 약 225개 (두 시스템 합계, TCP 루프백 통합 테스트 포함)
   - 태그 릴리스, 현장 시운전
 
-#### 사용 기술
-
-| 구분 | 기술 |
-|---|---|
-| Language·Framework | C#, .NET 10, WPF |
-| Architecture | MVVM (CommunityToolkit.Mvvm), Generic Host DI |
-| 통신·설비 | TCP Socket (서버·클라이언트), Siemens PLC (Fetch/Write), RS-232 Serial (2D 바코드 스캐너) |
-| 테스트 | xUnit, TimeProvider |
-| CI/CD | GitHub Actions |
-
 #### 주요 기능
 
 - **일반현황판**
@@ -52,6 +46,8 @@ import Gallery from '../../components/Gallery.astro';
   - 판정 결과(대기·OK·NG·오류)를 PLC로 반영
 - **공통**
   - 재전송 키패드, PLC 메모리 실시간 보기, 통신 상태 표시, 로그, 상태 복원, 시뮬레이션 모드
+
+</More>
 
 #### 시스템 구조
 

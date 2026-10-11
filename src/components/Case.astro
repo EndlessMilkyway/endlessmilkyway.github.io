@@ -2,15 +2,19 @@
 interface Props {
   no?: string;
   title: string;
+  collapsed?: boolean;
 }
-const { no = '', title } = Astro.props;
+const { no = '', title, collapsed = false } = Astro.props;
+const label = `문제 해결${no && ` ${no}`}`;
 ---
-<section class="case">
-  <h4 class="case-title">
-    <span class="case-label">문제 해결{no && ` ${no}`}</span>
-    {title}
-  </h4>
-  <div class="case-body">
-    <slot />
-  </div>
-</section>
+{collapsed ? (
+  <details class="case case-collapsed">
+    <summary class="case-title case-summary"><span class="case-label">{label}</span>{title}</summary>
+    <div class="case-body"><slot /></div>
+  </details>
+) : (
+  <section class="case">
+    <h4 class="case-title"><span class="case-label">{label}</span>{title}</h4>
+    <div class="case-body"><slot /></div>
+  </section>
+)}

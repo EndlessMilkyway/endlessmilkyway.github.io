@@ -4,12 +4,16 @@ order: 1
 title: "HEV 배터리·V2Lc 장착 백업현황판"
 subtitle: "기아 광주 1공장 증설라인"
 meta: ["2026.09.28 ~ 2026.10.06", "단독 개발", "나우디지털"]
+gear: "TCP Socket (클라이언트), USB 타워 램프 (네이티브 라이브러리 연동)"
 summary: ["14개 공정을 지나는 차량의 HEV 배터리·V2Lc 장착 오류를 보여 주는 현황판을 신규 구축", "오류가 나면 화면 알람과 USB 타워 램프로 작업자에게 알리며, 24시간 무인으로 운영"]
 ---
 
 import Case from '../../components/Case.astro';
 import HevDiagram from '../../components/diagrams/HevDiagram.astro';
 import Gallery from '../../components/Gallery.astro';
+import More from '../../components/More.astro';
+
+<More title="역할 · 주요 기능">
 
 #### 역할
 
@@ -30,16 +34,6 @@ import Gallery from '../../components/Gallery.astro';
   - 버전 태그 푸시로 GitHub Actions 릴리스
   - 현장 시운전
 
-#### 사용 기술
-
-| 구분 | 기술 |
-|---|---|
-| Language·Framework | C#, .NET 10, WPF |
-| Architecture | MVVM (CommunityToolkit.Mvvm), Generic Host DI |
-| 통신·장치 | TCP Socket (클라이언트), USB 타워 램프 (네이티브 라이브러리 연동) |
-| 테스트 | xUnit, TimeProvider |
-| CI/CD | GitHub Actions |
-
 #### 주요 기능
 
 - 14개 공정의 커밋번호·바디번호·장착 오류 실시간 표시 (배치도 + 공정 상태 표)
@@ -51,6 +45,8 @@ import Gallery from '../../components/Gallery.astro';
 - 작업 이력·오류 로그
 - 재시작 시 오류 이력 복원
 - 시뮬레이션 모드 (기록 파일을 실제 수신과 같은 경로로 재생)
+
+</More>
 
 #### 시스템 구조
 

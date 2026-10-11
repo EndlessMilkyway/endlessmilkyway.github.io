@@ -10,6 +10,9 @@ summary: ["실무와 비슷한 환경을 경험하기 위해, 대용량 트래�
 import Case from '../../components/Case.astro';
 import Figure from '../../components/Figure.astro';
 import Gallery from '../../components/Gallery.astro';
+import More from '../../components/More.astro';
+
+<More title="역할 · 사용 기술 · 주요 기능 · 시스템 구조">
 
 #### 역할
 
@@ -53,6 +56,8 @@ import Gallery from '../../components/Gallery.astro';
 
 <Figure src="/images/cafe/architecture.webp" alt="카페 주문 서비스 시스템 구조도" />
 
+</More>
+
 <Case no="" title="로컬 캐시 도입을 통한 DB 부하 감소">
 
 ##### 문제 배경
@@ -79,6 +84,8 @@ MVP 개발을 마친 뒤 부하 테스트를 진행하자, 대부분의 조회 A
 
 </Case>
 
+<More title="인프라 구성 · 프로젝트 결과물">
+
 #### 인프라 구성
 
 - **로컬 모니터링:** Prometheus와 Grafana를 Docker Compose로 묶은 모니터링 저장소를 따로 만들고, 앱 지표를 1초 간격으로 수집하도록 설정했습니다. 실행 방법과 트러블슈팅은 README로 정리했습니다.
@@ -88,3 +95,5 @@ MVP 개발을 마친 뒤 부하 테스트를 진행하자, 대부분의 조회 A
 #### 프로젝트 결과물
 
 <Gallery dir="/images/cafe" files={["screen-1.webp","screen-2.webp","screen-3.webp","screen-4.webp","screen-5.webp","screen-6.webp"]} alt="카페 주문 서비스 화면" variant="mobile" />
+
+</More>

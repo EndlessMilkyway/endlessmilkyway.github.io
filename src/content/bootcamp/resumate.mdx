@@ -11,6 +11,9 @@ award: "최우수상"
 import Case from '../../components/Case.astro';
 import Figure from '../../components/Figure.astro';
 import Gallery from '../../components/Gallery.astro';
+import More from '../../components/More.astro';
+
+<More title="역할 · 사용 기술 · 주요 기능 · 시스템 구조">
 
 #### 역할
 
@@ -47,6 +50,8 @@ import Gallery from '../../components/Gallery.astro';
 
 <Figure src="/images/resumate/architecture.webp" alt="Resumate 시스템 구조도" />
 
+</More>
+
 <Case no="①" title="Redis를 이용한 멀티디바이스 로그인 처리">
 
 ##### 문제 배경
@@ -71,7 +76,7 @@ import Gallery from '../../components/Gallery.astro';
 
 </Case>
 
-<Case no="②" title="LLM 분석 작업 모니터링">
+<Case collapsed no="②" title="LLM 분석 작업 모니터링">
 
 ##### 문제 배경
 
@@ -96,6 +101,10 @@ Grafana 대시보드에는 기본 JVM·HTTP 지표 옆에 "회고 분석 통계"
 
 </Case>
 
+<More title="프로젝트 결과물">
+
 #### 프로젝트 결과물
 
 <Gallery dir="/images/resumate" files={["screen-1.webp","screen-2.webp","screen-3.webp","screen-4.webp"]} alt="Resumate 화면" variant="web" />
+
+</More>

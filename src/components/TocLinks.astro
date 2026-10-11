@@ -1,0 +1,19 @@
+---
+interface Props {
+  sections: { id: string; title: string; projects: { slug: string; frontmatter: { nav: string } }[] }[];
+}
+const { sections } = Astro.props;
+---
+<nav class="toc-links" aria-label="목차">
+  <a href="#about" class="toc-section">소개</a>
+  {sections.map((s) => (
+    <>
+      <a href={`#${s.id}`} class="toc-section">{s.title}</a>
+      <ul>
+        {s.projects.map((p) => (
+          <li><a href={`#${p.slug}`}>{p.frontmatter.nav}</a></li>
+        ))}
+      </ul>
+    </>
+  ))}
+</nav>

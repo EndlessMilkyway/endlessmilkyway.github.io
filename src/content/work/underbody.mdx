@@ -4,12 +4,16 @@ order: 2
 title: "언더바디 서열 관리 시스템"
 subtitle: "기아 광주 3공장 트림4"
 meta: ["2026.08.27 ~ 2026.09.04", "단독 개발", "나우디지털"]
+gear: "TCP Socket (서버), RS-232 Serial, LS ELECTRIC PLC (Cnet 프로토콜)"
 summary: ["MES가 내려주는 차량 서열을 받아, 라인의 리미트 스위치 신호에 맞춰 선두 서열을 한 건씩 작업자 화면에 띄우는 시스템을 신규 구축", "참조할 레거시 없이 현장의 라인 운영 방식을 파악해 요구사항부터 정의하고, 앞선 프로젝트의 구조를 가져와 9일 만에 납품"]
 ---
 
 import Case from '../../components/Case.astro';
 import UnderbodyDiagram from '../../components/diagrams/UnderbodyDiagram.astro';
 import Gallery from '../../components/Gallery.astro';
+import More from '../../components/More.astro';
+
+<More title="역할 · 주요 기능">
 
 #### 역할
 
@@ -28,16 +32,6 @@ import Gallery from '../../components/Gallery.astro';
   - xUnit 테스트 약 60개, 태그 릴리스
   - 현장 시운전
 
-#### 사용 기술
-
-| 구분 | 기술 |
-|---|---|
-| Language·Framework | C#, .NET 10, WPF |
-| Architecture | MVVM (CommunityToolkit.Mvvm), Generic Host DI |
-| 통신·설비 | TCP Socket (서버), RS-232 Serial, LS ELECTRIC PLC (Cnet 프로토콜) |
-| 테스트 | xUnit |
-| CI/CD | GitHub Actions |
-
 #### 주요 기능
 
 - MES 서열 수신·파싱·ACK 응답
@@ -49,6 +43,8 @@ import Gallery from '../../components/Gallery.astro';
 - 통신 상태 표시와 일자별·통신·작업 이력 로그
 - 재시작 시 히스토리 복원
 - 시뮬레이션 모드
+
+</More>
 
 #### 시스템 구조
 
