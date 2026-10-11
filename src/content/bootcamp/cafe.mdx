@@ -1,0 +1,90 @@
+---
+nav: "카페 주문 서비스"
+order: 3
+title: "카페 주문 서비스"
+subtitle: "구름톤 딥다이브 백엔드 과정 1차 프로젝트"
+meta: ["2025.05.26 ~ 2025.07.15", "5명", "팀 깃깔나네"]
+summary: ["실무와 비슷한 환경을 경험하기 위해, 대용량 트래픽이 예상되는 카페 프랜차이즈 주문 서비스를 참고해 요구사항을 정의하고 개발", "메뉴 조회부터 옵션 선택, 장바구니, 주문·결제까지 주문 흐름 전체를 구현"]
+---
+
+import Case from '../../components/Case.astro';
+import Figure from '../../components/Figure.astro';
+import Gallery from '../../components/Gallery.astro';
+
+#### 역할
+
+- **Backend 개발**
+  - JWT 기반 인증·인가 기능 개발
+  - 회원·매장 기능 개발
+  - 음료·디저트 조회 도메인 개발 (QueryDSL 동적 정렬)
+  - Spring Cache·Caffeine 로컬 캐시 도입
+- **Frontend 개발**
+  - UI/UX 디자인
+  - React.js 기반 웹 퍼블리싱
+- **인프라 (전담)**
+  - Prometheus·Grafana 로컬 모니터링 시스템 구축
+  - 운영 사양을 모사한 부하 테스트 환경 구성
+  - AWS 인프라 구성 (ECR, Elastic Beanstalk, RDS)
+  - GitHub Actions를 통한 CI/CD 파이프라인 구축
+
+#### 사용 기술
+
+| 구분 | 기술 |
+|---|---|
+| Backend | Java, Spring Boot, Spring Data JPA, QueryDSL, Spring Cache, Caffeine |
+| Frontend | React.js |
+| DB | PostgreSQL |
+| CI/CD | GitHub Actions |
+| Infra | AWS Elastic Beanstalk, ECR, RDS, Docker |
+| 모니터링 및 성능테스트 | Prometheus, Grafana, Micrometer, k6 |
+
+#### 주요 기능
+
+- 메뉴 조회 기능
+- 옵션 선택 기능
+- 주문 기능
+- 장바구니 기능
+- 결제 기능
+- 선불카드 충전 기능
+- 테스트 환경 모니터링
+- AWS 배포 (Elastic Beanstalk)
+
+#### 시스템 구조
+
+<Figure src="/images/cafe/architecture.webp" alt="카페 주문 서비스 시스템 구조도" />
+
+<Case no="" title="로컬 캐시 도입을 통한 DB 부하 감소">
+
+##### 문제 배경
+
+MVP 개발을 마친 뒤 부하 테스트를 진행하자, 대부분의 조회 API에서 병목이 나타났습니다. 특히 음료 목록, 디저트 목록, 매장 목록처럼 사용자가 반복해서 여는 API도 요청마다 DB를 조회하고 있었고, 최악의 경우 응답까지 최대 9초가 걸렸습니다.
+
+초기 구현은 조회 요청이 올 때마다 서비스 계층에서 Repository를 거쳐 DB를 직접 조회하는 구조였습니다. 그런데 이 데이터들은 수정보다 조회가 훨씬 잦았기 때문에, 같은 요청마다 DB에 접근하는 방식은 불필요한 부하를 만든다고 판단했습니다.
+
+##### 개선 방법
+
+백엔드 서버가 모놀리식 구조이고 단일 인스턴스로 운영된다는 점을 근거로, 외부 캐시보다 로컬 캐시가 적합하다고 판단했습니다. 인스턴스가 하나라 캐시 동기화 문제가 없고, 네트워크를 거치지 않아 가장 빠르기 때문입니다. 그래서 Spring Cache와 Caffeine을 도입해 애플리케이션 메모리에서 캐시 데이터를 조회하도록 바꿨습니다.
+
+캐시는 `CacheConfig`와 `CacheType`으로 10종을 정의하고, 데이터 성격에 따라 세 그룹으로 나눠 TTL과 최대 크기를 따로 정했습니다. 크기마다 산정 근거를 코드 주석에 남겼습니다.
+
+- **개별 상품 조회 (음료·디저트·옵션·매장 상세):** 변경이 드물고 조회가 잦아 TTL을 길게(120~180분) 잡았습니다. 크기는 실제 데이터 수에 여유분을 더했습니다. 예를 들어 음료는 50개라 70개, 옵션은 음료 50개 × 평균 10개라 600개로 정했습니다.
+- **목록 조회 (페이징):** 새 상품이 추가되면 결과가 바뀌므로 TTL을 중간(60~120분)으로 두었습니다. 페이지 번호, 페이지 크기, 정렬 조건을 캐시 키로 써서 같은 페이지 요청에만 캐시가 재사용되게 했고, 크기는 페이지 수 × 정렬 종류로 계산했습니다(음료 5페이지 × 정렬 5가지 = 25개 + 여유분 = 30개).
+- **복수 ID 조회 (주문 시):** 주문마다 조합이 달라지는 일시적인 데이터라 TTL을 짧게(30분) 잡고, 크기는 피크 시간의 예상 주문 조합 수로 정했습니다.
+
+이 캐시들을 음료·디저트 상세, 상품 옵션 조회, 그리고 주문 과정에서 반복 호출되는 복수 ID 상품·옵션 조회에 `@Cacheable`로 적용해, 조회 트래픽이 몰리는 구간의 DB 접근 횟수를 줄였습니다. 캐시 적중 통계와 제거 로그도 켜 두어 캐시가 실제로 쓰이는지 확인할 수 있게 했습니다.
+
+##### 결과
+
+반복 조회 요청은 DB를 거치지 않고 애플리케이션 메모리에서 응답하게 되었고, 조회 API의 응답 성능을 최대 89% 개선했습니다.
+
+</Case>
+
+#### 인프라 구성
+
+- **로컬 모니터링:** Prometheus와 Grafana를 Docker Compose로 묶은 모니터링 저장소를 따로 만들고, 앱 지표를 1초 간격으로 수집하도록 설정했습니다. 실행 방법과 트러블슈팅은 README로 정리했습니다.
+- **부하 테스트 환경:** 운영 서버(t3.small)와 비슷한 조건에서 측정하도록 메모리 2GB, CPU 2개, 힙 1GB로 제한한 테스트용 Docker 환경을 만들고, 컨테이너 메모리·힙 사용률을 커스텀 지표로 수집했습니다.
+- **배포 파이프라인:** develop 브랜치에 push하면 GitHub Actions가 빌드, Docker 이미지 생성, ECR push, Elastic Beanstalk 배포까지 수행하도록 구성했습니다. 설정 파일은 GitHub Secret에서 생성해 저장소에 민감 정보가 남지 않게 했습니다.
+
+#### 프로젝트 결과물
+
+<Gallery dir="/images/cafe" files={["screen-1.webp","screen-2.webp","screen-3.webp","screen-4.webp","screen-5.webp","screen-6.webp"]} alt="카페 주문 서비스 화면" variant="mobile" />

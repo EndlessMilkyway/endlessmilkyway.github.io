@@ -1,0 +1,17 @@
+---
+import sizes from '../data/images.json';
+
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+const { src, alt, caption } = Astro.props;
+const [width, height] = (sizes as Record<string, number[]>)[src] ?? [];
+---
+<figure class="figure">
+  <a href={src} target="_blank" rel="noopener">
+    <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+  </a>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

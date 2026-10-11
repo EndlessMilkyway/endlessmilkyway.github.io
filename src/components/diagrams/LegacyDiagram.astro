@@ -1,0 +1,43 @@
+---
+import Diagram from './Diagram.astro';
+
+const boxes = [
+  { x: 20, y: 150, w: 150, h: 48, t: 'MES 서버' },
+  { x: 20, y: 210, w: 150, h: 48, t: '기준 호스트' },
+  { x: 20, y: 270, w: 150, h: 48, t: 'Siemens PLC' },
+  { x: 20, y: 330, w: 150, h: 48, t: '2D 바코드 스캐너' },
+  { x: 250, y: 20, w: 440, h: 90, t: 'Presentation (WPF)', s: ['View · ViewModel · 사용자 컨트롤', 'UI 스레드 전환 · 서비스 시작/중지 · 로깅'] },
+  { x: 250, y: 150, w: 440, h: 290, t: 'Core (WPF 비의존)', cls: 'group' },
+  { x: 268, y: 190, w: 200, h: 110, t: '통신', s: ['TCP 서버', '자동 재연결 클라이언트', '시리얼 (스캐너)'] },
+  { x: 488, y: 190, w: 184, h: 110, t: '프로토콜', s: ['서열 전문 파싱 · ACK', 'PLC Fetch/Write 코덱'] },
+  { x: 268, y: 316, w: 200, h: 108, t: '도메인', s: ['서열 버퍼 · 동기화', '이종 판정 조정자'], cls: 'accent' },
+  { x: 488, y: 316, w: 184, h: 108, t: '영속화 · 로깅', s: ['설정 검증 · INI 이관', '원자적 저장'] },
+  { x: 740, y: 250, w: 160, h: 76, t: 'Tests (xUnit)', s: ['루프백 TCP · 시간 주입'] },
+];
+
+const edges = [
+  { d: 'M170,174 L215,174', end: false },
+  { d: 'M170,234 L215,234', end: false },
+  { d: 'M170,294 L215,294', end: false },
+  { d: 'M170,354 L215,354', end: false },
+  { d: 'M215,174 L215,354', end: false },
+  { d: 'M215,245 L267,245' },
+  { d: 'M470,110 L470,149' },
+  { d: 'M740,288 L691,288' },
+];
+
+const labels = [
+  { x: 95, y: 136, t: '외부 시스템 · 장치' },
+  { x: 480, y: 134, t: '단방향 의존', a: 'start' as const },
+  { x: 820, y: 240, t: 'Core만 참조' },
+];
+---
+<Diagram
+  id="legacy"
+  viewBox="0 0 920 460"
+  title="레거시 개선 3계층 구조도"
+  caption="3계층 구조도 (직접 다시 그림)"
+  boxes={boxes}
+  edges={edges}
+  labels={labels}
+/>

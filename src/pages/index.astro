@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+
+type Project = {
+  slug: string;
+  frontmatter: {
+    nav: string;
+    order: number;
+    title: string;
+    subtitle: string;
+    meta: string[];
+    summary: string[];
+    award?: string;
+  };
+  Content: any;
+};
+
+function load(mods: Record<string, any>): Project[] {
+  return Object.entries(mods)
+    .map(([path, mod]) => ({
+      slug: path.split('/').pop()!.replace(/\.mdx$/, ''),
+      frontmatter: mod.frontmatter,
+      Content: mod.Content,
+    }))
+    .sort((a, b) => a.frontmatter.order - b.frontmatter.order);
+}
+
+const work = load(import.meta.glob('../content/work/*.mdx', { eager: true }));
+const bootcamp = load(import.meta.glob('../content/bootcamp/*.mdx', { eager: true }));
+
+const sections = [
+  {
+    id: 'work',
+    kicker: '나우디지털',
+    title: '실무 프로젝트',
+    note: '네 건 모두 단독 개발입니다. 고객사 시스템이라 소스와 화면 대신 구조와 구현 방식을 정리했고, 구조도는 직접 다시 그렸습니다.',
+    projects: work,
+  },
+  {
+    id: 'bootcamp',
+    kicker: '구름 KDT',
+    title: '부트캠프 프로젝트',
+    note: '',
+    projects: bootcamp,
+  },
+];
+
+const email = 'freekyr7529@gmail.com';
+const github = 'https://github.com/EndlessMilkyway';
+---
+<Base
+  title="김영렬 · Backend Developer 포트폴리오"
+  description="기아 광주공장 생산 라인 시스템 4건과 Spring Boot 팀 프로젝트 3건을 정리한 김영렬의 백엔드 개발자 포트폴리오입니다."
+>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#top" class="topbar-name">김영렬</a>
+      <nav class="topbar-nav" aria-label="섹션">
+        <a href="#about">소개</a>
+        <a href="#work">실무</a>
+        <a href="#bootcamp">부트캠프</a>
+        <a href={github} target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="shell" id="top">
+    <aside class="toc" aria-label="목차">
+      <nav>
+        <a href="#about" class="toc-section">소개</a>
+        {sections.map((s) => (
+          <>
+            <a href={`#${s.id}`} class="toc-section">{s.title}</a>
+            <ul>
+              {s.projects.map((p) => (
+                <li><a href={`#${p.slug}`}>{p.frontmatter.nav}</a></li>
+              ))}
+            </ul>
+          </>
+        ))}
+      </nav>
+    </aside>
+
+    <main class="main">
+      <section class="hero">
+        <p class="hero-role">Backend Developer</p>
+        <h1 class="hero-name">김영렬</h1>
+        <p class="hero-tagline">제조 현장의 데이터를 끊김 없이 받아, 라인이 믿을 수 있는 시스템으로 만듭니다.</p>
+        <ul class="hero-links">
+          <li><span>Email</span><a href={`mailto:${email}`}>{email}</a></li>
+          <li><span>GitHub</span><a href={github} target="_blank" rel="noopener">github.com/EndlessMilkyway</a></li>
+        </ul>
+      </section>
+
+      <section id="about" class="section">
+        <h2 class="section-title">소개</h2>
+        <div class="prose">
+          <p>기아 광주공장의 생산 라인 시스템 네 건을 혼자 맡아 요구사항 정의부터 설계, 개발, 현장 시운전까지 수행했습니다. MES가 내려주는 서열 데이터와 PLC·설비 신호를 받아 현황판과 오조립 판정으로 바꾸는 프로그램들입니다.</p>
+          <p>그 전에는 구름 KDT 과정에서 Java·Spring Boot로 백엔드를 배우며 세 번의 팀 프로젝트를 수행했고, 마지막 프로젝트로 최우수상을 받았습니다.</p>
+          <table class="about-table">
+            <thead>
+              <tr><th>기간</th><th>소속</th><th>내용</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2026.05 ~ 현재</td><td>나우디지털</td><td>제조 현장 응용 소프트웨어 개발 (기아 광주공장 4건)</td></tr>
+              <tr><td>2025.02 ~ 2025.09</td><td>구름 KDT</td><td>Spring 기반 백엔드 개발자 성장과정 (팀 프로젝트 3건)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {sections.map((s) => (
+        <section id={s.id} class="section">
+          <p class="section-kicker">{s.kicker}</p>
+          <h2 class="section-title">{s.title}</h2>
+          {s.note && <p class="section-note">{s.note}</p>}
+          {s.projects.map(({ slug, frontmatter: f, Content }) => (
+            <article id={slug} class="project">
+              <header class="project-head">
+                <p class="project-kicker">{f.subtitle}</p>
+                <h3 class="project-title">
+                  {f.title}
+                  {f.award && <span class="badge">{f.award}</span>}
+                </h3>
+                <ul class="project-meta">
+                  {f.meta.map((m) => <li>{m}</li>)}
+                </ul>
+                <ul class="project-summary">
+                  {f.summary.map((line) => <li>{line}</li>)}
+                </ul>
+              </header>
+              <div class="prose">
+                <Content />
+              </div>
+            </article>
+          ))}
+        </section>
+      ))}
+
+      <footer class="footer">
+        <p>© 2026 김영렬 · <a href={`mailto:${email}`}>{email}</a></p>
+      </footer>
+    </main>
+  </div>
+</Base>

@@ -1,0 +1,71 @@
+---
+interface Box { x: number; y: number; w: number; h: number; t: string; s?: string[]; cls?: string }
+interface Edge { d: string; cls?: string; start?: boolean; end?: boolean }
+interface Label { x: number; y: number; t: string; a?: 'start' | 'middle' | 'end' }
+interface Props {
+  id: string;
+  viewBox: string;
+  title: string;
+  caption?: string;
+  boxes: Box[];
+  edges: Edge[];
+  labels?: Label[];
+  minWidth?: number;
+}
+const { id, viewBox, title, caption, boxes, edges, labels = [], minWidth = 680 } = Astro.props;
+const marker = `${id}-arrow`;
+
+// 제목 한 줄 + 보조 줄들을 상자 안에서 세로 가운데로 맞춘다.
+const TITLE_H = 20;
+const SUB_H = 17;
+function textLayout(b: Box) {
+  const subs = b.s ?? [];
+  const blockH = TITLE_H + SUB_H * subs.length;
+  const top = b.y + (b.h - blockH) / 2;
+  return { titleY: top + 15, subY: (i: number) => top + 15 + 19 + SUB_H * i };
+}
+---
+<figure class="diagram">
+  <div class="diagram-scroll">
+    <svg viewBox={viewBox} role="img" aria-labelledby={`${id}-title`} style={`min-width:${minWidth}px`}>
+      <title id={`${id}-title`}>{title}</title>
+      <defs>
+        <marker id={marker} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" class="dg-arrow" />
+        </marker>
+      </defs>
+      {boxes.map((b) => {
+        if (b.cls === 'group') {
+          return (
+            <g>
+              <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="14" class="dg-group" />
+              <text x={b.x + 18} y={b.y + 26} class="dg-t">{b.t}</text>
+            </g>
+          );
+        }
+        const l = textLayout(b);
+        return (
+          <g>
+            <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="10" class={`dg-box ${b.cls ?? ''}`} />
+            <text x={b.x + b.w / 2} y={l.titleY} text-anchor="middle" class="dg-t">{b.t}</text>
+            {(b.s ?? []).map((line, i) => (
+              <text x={b.x + b.w / 2} y={l.subY(i)} text-anchor="middle" class="dg-s">{line}</text>
+            ))}
+          </g>
+        );
+      })}
+      {edges.map((e) => (
+        <path
+          d={e.d}
+          class={`dg-line ${e.cls ?? ''}`}
+          marker-end={e.end === false ? undefined : `url(#${marker})`}
+          marker-start={e.start ? `url(#${marker})` : undefined}
+        />
+      ))}
+      {labels.map((l) => (
+        <text x={l.x} y={l.y} text-anchor={l.a ?? 'middle'} class="dg-l">{l.t}</text>
+      ))}
+    </svg>
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

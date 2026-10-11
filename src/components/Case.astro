@@ -1,0 +1,16 @@
+---
+interface Props {
+  no?: string;
+  title: string;
+}
+const { no = '', title } = Astro.props;
+---
+<section class="case">
+  <h4 class="case-title">
+    <span class="case-label">문제 해결{no && ` ${no}`}</span>
+    {title}
+  </h4>
+  <div class="case-body">
+    <slot />
+  </div>
+</section>
